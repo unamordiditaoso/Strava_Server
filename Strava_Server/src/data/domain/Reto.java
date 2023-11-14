@@ -82,37 +82,9 @@ public class Reto {
 	public void setDeportes(List<Deporte> deportes) {
 		this.deportes = deportes;
 	}
-	
-	public float comprobarReto(Usuario usuario) {
-		int obj = 0;
-		float porcentaje = 0;
-		
-		for (Entrenamiento e : usuario.getEntrenamientos()) {
-			if (this.deportes.contains(e.deporte)) {
-				if (this.fecha_ini.compareTo(e.getFecha_ini()) <= 0 && this.fecha_fin.compareTo(e.getFecha_fin()) >= 0) {	
-					
-					if (this.tipo.equals(TipoReto.Distancia)) {
-						obj = obj + e.distancia;						
-					} else if (this.tipo.equals(TipoReto.Tiempo)) {
-						obj = obj + e.duracion;
-					}
-				}
-			}
-		}
-		
-		if (obj < this.objetivo) {
-			
-			porcentaje = ((float) obj  * 100 / (float) this.objetivo);
-		} else if (obj >= this.objetivo) {
-			porcentaje = 100;
-		}
-		
-		return porcentaje;		
-	}
 
 	@Override
 	public String toString() {
-		return "Reto [nombre=" + nombre + ", fecha_ini=" + fecha_ini + ", fecha_fin=" + fecha_fin + ", tipo=" + tipo
-				+ ", objetivo=" + objetivo + ", deportes=" + deportes + "]";
+		return nombre + " (" + fecha_ini + " - " + fecha_fin + ") ";
 	}
 }

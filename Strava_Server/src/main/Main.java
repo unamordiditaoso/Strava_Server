@@ -41,22 +41,5 @@ public class Main {
 		
 		Reto r1 = new Reto("Reto de tiempo", d7, d8, TipoReto.Tiempo, 50, Arrays.asList(Deporte.values()));
 		Reto r2 = new Reto("Reto de distancia", d9, d10, TipoReto.Distancia, 40, Arrays.asList(Deporte.Ciclismo));
-		
-		u.crearEntrenamiento(e1);
-		u.crearEntrenamiento(e2);
-		u.crearEntrenamiento(e3);
-		
-		u.crearReto(r1);
-		boolean b = u.apuntarseReto(r2);
-		
-		float f = r1.comprobarReto(u);
-		System.out.println(f);
-		float f1 = r2.comprobarReto(u);
-		System.out.println(f1);
-		Date hL = new Date(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth(), LocalTime.now().getHour(), LocalTime.now().getMinute());
-		
-		List<Reto> rA = u.getRetosActivos(hL);
-		
-		rA.forEach(r -> System.out.println(r));
 	}
 }

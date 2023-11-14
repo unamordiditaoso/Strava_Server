@@ -129,44 +129,15 @@ public class Usuario {
 		this.retos = retos;
 	}
 	
-	public void crearEntrenamiento(Entrenamiento entrenamiento) {
+	public void add(Reto reto) {
+		if (reto != null && !this.retos.contains(reto)) {
+			retos.add(reto);
+		} 	
+	}
+	public void add(Entrenamiento entrenamiento) {
 		if (entrenamiento != null && !this.entrenamientos.contains(entrenamiento)) {
 			entrenamientos.add(entrenamiento);
-		}
-	}
-	
-	public void crearReto(Reto reto) {
-		if (reto != null && !this.retos.contains(reto)) {
-			retos.add(reto);
-		}
-	}
-	public boolean apuntarseReto(Reto reto) {
-		if (reto != null && !this.retos.contains(reto)) {
-			retos.add(reto);
-			System.out.println(String.format("Te has apuntado al reto: %s", reto.getNombre()));
-			return true;
-		} else {
-			return false;
-		}	
-	}
-	public List<Reto> getRetosActivos(Date fechaActual) {
-		List<Reto> retosAct = new ArrayList<Reto>();
-		
-		retos.forEach(r ->{
-			if (r.fecha_ini.compareTo(fechaActual) <= 0 && r.fecha_fin.compareTo(fechaActual) >= 0) {
-				System.out.println(r.toString());
-				if (retosAct.contains(r)) {
-					retosAct.add(r);
-				}
-			}
-		});
-		return retosAct;
-	}
-	public List<String> consultarEstadoRetos(){
-		return null;
-	}
-	public boolean comprobarCorreo(String correo) {
-		return false;	
+		} 	
 	}
 }
 
