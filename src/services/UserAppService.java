@@ -32,12 +32,15 @@ public class UserAppService {
 	public Usuario registro(String nombre, String correo, Date fecha_ncto) {
 		Usuario usuario = new Usuario();
 		
-		if (comprobarCorreo(correo)) {
+		if (correos.contains(usuario.getCorreo())) {
 			correos.add(correo);
 		
 			usuario.setNombre(nombre);
 			usuario.setCorreo(correo);
 			usuario.setFecha_ncto(fecha_ncto);
+		} else {
+			System.err.println("El correo ya esta registrado");
+			return null;
 		}
 		
 		
@@ -47,19 +50,15 @@ public class UserAppService {
 	public Usuario registroOpcional(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep){
 		Usuario usuario = registro(nombre, correo, fecha_ncto);
 		
+		if (usuario == null) {
+			System.err.println("El correo ya esta registrado");
+			return null;
+		}
 		usuario.setPeso(peso);
 		usuario.setAltura(altura);
 		usuario.setFrec_card_max(frecuenciaCardMax);
 		usuario.setFrec_card_reposo(frecuenciaCardRep);
 		
 		return usuario;
-	}
-	
-	public boolean comprobarCorreo(String correo) {
-		if (correos.contains(correo)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }
