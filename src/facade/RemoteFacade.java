@@ -12,6 +12,8 @@ import data.domain.Deporte;
 import data.domain.Reto;
 import data.domain.TipoReto;
 import data.domain.Usuario;
+import data.dto.RetoAssembler;
+import data.dto.RetoDTO;
 import data.dto.UsuarioAssembler;
 import services.EntrenamientoAppService;
 import services.RetoAppService;
@@ -81,23 +83,35 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		}
 	}
 
-	public List<Reto> getRetosActivos(Date Fecha) throws RemoteException {
+	public List<RetoDTO> getRetosActivos(long token) throws RemoteException {
 		System.out.println(" * RemoteFacade getRetosActivos()");
-		return null;
+		List<Reto> retosActivos = retoService.getRetosActivos(this.stateServer.get(token));
+		if(retosActivos.size() > 0) {
+			return RetoAssembler.getInstance().retosToDTO(retosActivos);
+		} else {
+			throw new RemoteException("No se han podido recuperar tus retos activos");
+		}
 	}
-	@Override
-	public boolean ApuntarseReto(Reto reto) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean ApuntarseReto(long token, RetoDTO retoDTO) throws RemoteException {
+		Reto reto = RetoAssembler.getInstance().DTOtoReto(retoDTO);
+		System.out.println("\n* RemoteFacade ApuntarseReto(). Usuario: " + this.stateServer.get(token).getNombre() + ", reto: " + reto.getNombre());
+		if(retoService.apuntarseReto(this.stateServer.get(token), reto)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-	@Override
-	public float ComprobarReto() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+
+	public float ComprobarReto(long token, RetoDTO retoDTO) throws RemoteException {
+		Reto reto = RetoAssembler.getInstance().DTOtoReto(retoDTO);
+		System.out.println("\n* RemoteFacade ComprobarReto(). Usuario: " + this.stateServer.get(token).getNombre() + ", reto: " + reto.getNombre());
+		float porcentaje = 0;
+		porcentaje = retoService.comprobarReto(this.stateServer.get(token), reto);
+		return porcentaje;
 	}
-	@Override
+
 	public List<String> ConsultarEstadoRetos() throws RemoteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
@@ -112,5 +126,4 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

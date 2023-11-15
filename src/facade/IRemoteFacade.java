@@ -8,6 +8,8 @@ import java.util.List;
 import data.domain.Deporte;
 import data.domain.Reto;
 import data.domain.TipoReto;
+import data.domain.Usuario;
+import data.dto.RetoDTO;
 
 public interface IRemoteFacade extends Remote{
 	
@@ -20,11 +22,11 @@ public interface IRemoteFacade extends Remote{
 	
 	public void logOut(long token) throws RemoteException;
 	
-	public List<Reto> getRetosActivos(Date Fecha) throws RemoteException;
+	public List<RetoDTO> getRetosActivos(long token) throws RemoteException;
 	
-	public boolean ApuntarseReto(Reto reto) throws RemoteException;
+	public boolean ApuntarseReto(long token, RetoDTO retoDTO) throws RemoteException;
 	
-	public float ComprobarReto() throws RemoteException;
+	public float ComprobarReto(long token, RetoDTO retoDTO) throws RemoteException;
 	
 	public List<String> ConsultarEstadoRetos() throws RemoteException;
 	
