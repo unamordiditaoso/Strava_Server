@@ -2,6 +2,10 @@ package data.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import data.domain.Deporte;
+import data.domain.TipoReto;
 
 public class RetoDTO implements Serializable{
 	//This attribute is needed to implement the "Serializable" interface.
@@ -10,7 +14,8 @@ public class RetoDTO implements Serializable{
 			private int objetivo;
 			private Date fechaInicio;
 			private Date fechaFin;
-			private int tipoDeReto;
+			private TipoReto tipoDeReto;
+			private List<Deporte> deportes;
 			
 			public String getNombre() {
 				return nombre;
@@ -36,10 +41,16 @@ public class RetoDTO implements Serializable{
 			public void setFechaFin(Date fechaFin) {
 				this.fechaFin = fechaFin;
 			}
-			public int getTipoDeReto() {
+			public TipoReto getTipoDeReto() {
 				return tipoDeReto;
 			}
-			public void setTipoDeReto(int tipoDeReto) {
+			public void setTipoDeReto(TipoReto tipoDeReto) {
 				this.tipoDeReto = tipoDeReto;
+			}
+			public List<Deporte> getDeportes() {
+				return deportes;
+			}
+			public void setDeportes(List<Deporte> deportes) {
+				this.deportes = deportes;
 			}		
 }

@@ -3,6 +3,7 @@ package data.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.domain.Deporte;
 import data.domain.Entrenamiento;
 
 public class EntrenamientoAssembler {
@@ -26,7 +27,10 @@ public class EntrenamientoAssembler {
 		dto.setDuracion(entrenamiento.getDuracion());
 		dto.setFechaInicio(entrenamiento.getFecha_ini());
 		dto.setFechaFin(entrenamiento.getFecha_fin());
-				
+		if(entrenamiento.getDeporte() == Deporte.Ciclismo) {
+			dto.setDeporte(Deporte.Ciclismo);
+		} else if(entrenamiento.getDeporte() == Deporte.Running)
+				dto.setDeporte(Deporte.Running);
 		return dto;
 	}
 	

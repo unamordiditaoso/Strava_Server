@@ -11,13 +11,14 @@ import data.domain.TipoReto;
 
 public interface IRemoteFacade extends Remote{
 	
-	public void registro(String correo, String nombre, Date fecha_nacimiento) throws RemoteException;
-	
-	public boolean regsitroOpcional(String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException;
+//  No hay que hacerlo para esta semana	
+//	public void registro(String correo, String nombre, Date fecha_nacimiento) throws RemoteException;
+//	
+//	public void regsitroOpcional(String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException;
 		
-	public String logIn(String correo, String contraseña) throws RemoteException;
+	public long logIn(String correo, String password) throws RemoteException;
 	
-	public void logOut() throws RemoteException;
+	public void logOut(long token) throws RemoteException;
 	
 	public List<Reto> getRetosActivos(Date Fecha) throws RemoteException;
 	

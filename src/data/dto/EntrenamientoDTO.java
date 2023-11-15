@@ -3,6 +3,8 @@ package data.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import data.domain.Deporte;
+
 public class EntrenamientoDTO implements Serializable{
 	//This attribute is needed to implement the "Serializable" interface.
 		private static final long serialVersionUID = 1L;
@@ -11,6 +13,7 @@ public class EntrenamientoDTO implements Serializable{
 		private Date fechaInicio;
 		private Date fechaFin;
 		private int duracion;
+		private Deporte deporte;
 		
 		public String getTitulo() {
 			return titulo;
@@ -41,5 +44,11 @@ public class EntrenamientoDTO implements Serializable{
 		}
 		public void setDuracion(int duracion) {
 			this.duracion = duracion;
+		}
+		public Deporte getDeporte() {
+			return deporte;
+		}
+		public void setDeporte(Deporte deporte) {
+			this.deporte = deporte;
 		}	
 }
