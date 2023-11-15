@@ -22,12 +22,6 @@ public class UsuarioAssembler {
 		
 		dto.setCorreo(usuario.getCorreo());
 		dto.setNombre(usuario.getNombre());
-		dto.setFecha_ncto(usuario.getFecha_ncto());
-		dto.setAltura(usuario.getAltura());
-		dto.setPeso(usuario.getPeso());
-		dto.setFrec_card_max(usuario.getFrec_card_max());
-		dto.setFrec_card_reposo(usuario.getFrec_card_reposo());
-		dto.settReg(usuario.gettReg());
 		
 		return dto;
 	}
