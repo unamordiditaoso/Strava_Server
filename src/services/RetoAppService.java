@@ -15,13 +15,23 @@ public class RetoAppService {
 	public Reto crearReto(String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) {
 		Reto reto = new Reto();
 		
-		reto.setNombre(nombre);
-		reto.setObjetivo(objetivo);
-		reto.setTipo(tipo);
-		reto.setFecha_ini(fecha_ini);
-		reto.setFecha_fin(fecha_fin);
-		reto.setDeportes(deportes);
+		if (tipo == TipoReto.Distancia) {
+			reto.setNombre(nombre);
+			reto.setObjetivo(objetivo);
+			reto.setTipo(tipo);
+			reto.setFecha_ini(fecha_ini);
+			reto.setFecha_fin(fecha_fin);
+			reto.setDeportes(deportes);
+		} else {
+			reto.setNombre(nombre);
+			reto.setObjetivo(objetivo);
+			reto.setTipo(tipo);
+			reto.setFecha_ini(fecha_ini);
+			reto.setFecha_fin(fecha_fin);
+			reto.setDeportes(deportes);
+		}
 		
+	
 		return reto;
 	}
 	public List<Reto> getRetosActivos(Usuario usuario){
@@ -74,6 +84,8 @@ public class RetoAppService {
 			return false;
 		}	
 	}
+	
+	
 	public List<String> consultarEstadoRetos(Usuario usuario){
 		List<String> estadoRetos = new ArrayList<String>();
 		

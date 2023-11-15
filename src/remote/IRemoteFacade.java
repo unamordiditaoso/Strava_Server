@@ -1,4 +1,4 @@
-package facade;
+package remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -28,9 +28,9 @@ public interface IRemoteFacade extends Remote{
 	
 	public float ComprobarReto(long token, RetoDTO retoDTO) throws RemoteException;
 	
-	public List<String> ConsultarEstadoRetos() throws RemoteException;
+	public List<String> ConsultarEstadoRetos(long token) throws RemoteException;
 	
-	public void crearReto(String nombre, Date fecha_ini, Date fecha_fin, TipoReto TipoReto, float distancia, Integer tiempo, Deporte deporte) throws RemoteException;
+	public void crearReto( String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException;
 	
 	public void crearEntrenamiento(String titulo, Deporte deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException;
 	

@@ -1,7 +1,8 @@
-package facade;
+package remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.domain.Deporte;
+import data.domain.Entrenamiento;
 import data.domain.Reto;
 import data.domain.TipoReto;
 import data.domain.Usuario;
@@ -24,8 +26,11 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	private EntrenamientoAppService entrenamientoService = new EntrenamientoAppService();
 	private RetoAppService retoService = new RetoAppService();
 	private UserAppService userService = new UserAppService();
+	
+	
 	protected Map<Long, Usuario> stateServer = new HashMap<>();
 	protected Map<String, String> usuariosRegistrados = new HashMap<>();
+	protected List<RetoDTO> retos = new ArrayList<>();
 	
 	protected RemoteFacade() throws RemoteException {
 		super();
@@ -105,25 +110,51 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 
 	public float ComprobarReto(long token, RetoDTO retoDTO) throws RemoteException {
 		Reto reto = RetoAssembler.getInstance().DTOtoReto(retoDTO);
+		
 		System.out.println("\n* RemoteFacade ComprobarReto(). Usuario: " + this.stateServer.get(token).getNombre() + ", reto: " + reto.getNombre());
-		float porcentaje = 0;
-		porcentaje = retoService.comprobarReto(this.stateServer.get(token), reto);
+		float porcentaje = retoService.comprobarReto(this.stateServer.get(token), reto);
 		return porcentaje;
+	
 	}
 
-	public List<String> ConsultarEstadoRetos() throws RemoteException {
-		return null;
+	public List<String> ConsultarEstadoRetos(long token) throws RemoteException {
+		List<String> estadoRetos = retoService.consultarEstadoRetos(this.stateServer.get(token));
+		System.out.println("\n* RemoteFacade ConsultarEstadoRetos()");
+		
+		if (estadoRetos != null) {
+			return estadoRetos;
+		} else {
+			throw new RemoteException("ConsultarEstadoRetos() ha fallado");
+		}
+	}
+	
+	@Override
+	public void crearReto(String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException {
+		System.out.println(" * RemoteFacade crearReto nombre : " + nombre + " | fecha_inicio " + fecha_ini + " | fecha_fin " + fecha_fin + " | TipoReto " + tipo);
+								
+		Reto reto = retoService.crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes);
+		
+		
+		if (reto != null) {
+			retos.add(RetoAssembler.getInstance().retoToDTO(reto));
+		} else {
+			throw new RemoteException("crearReto() ha fallado");
+		}
+
 	}
 	@Override
-	public void crearReto(String nombre, Date fecha_ini, Date fecha_fin, TipoReto TipoReto, float distancia,
-			Integer tiempo, Deporte deporte) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void crearEntrenamiento(String titulo, Deporte deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException {
+		System.out.println(" * RemoteFacade crearEntrenamiento titulo : " + titulo + " | distancia " + distancia + " | fecha_fin " + fecha_fin + " | fecha_fin " + fecha_fin + " | duracion: " + duracion);
+		
+		Entrenamiento entrenamiento = entrenamientoService.crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion);
+		
+		if (entrenamiento != null) {
+			System.out.println("Se ha creado el entrenamiento correctamente");
+		} else {
+			throw new RemoteException("crearEntrenamiento() ha fallado");
+		}
 		
 	}
-	@Override
-	public void crearEntrenamiento(String titulo, Deporte deporte, Integer distancia, Date fecha_ini, Date fecha_fin,
-			Integer duracion) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
+
+
 }
