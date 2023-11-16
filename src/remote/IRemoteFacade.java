@@ -9,6 +9,7 @@ import data.domain.Deporte;
 import data.domain.Reto;
 import data.domain.TipoReto;
 import data.domain.Usuario;
+import data.dto.EntrenamientoDTO;
 import data.dto.RetoDTO;
 import data.dto.UsuarioDTO;
 
@@ -37,4 +38,5 @@ public interface IRemoteFacade extends Remote{
 	
 	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) throws RemoteException;
 	
+	public List<EntrenamientoDTO> getEntrenamientos(long token) throws RemoteException;
 } 

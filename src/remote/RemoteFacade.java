@@ -14,6 +14,8 @@ import data.domain.Entrenamiento;
 import data.domain.Reto;
 import data.domain.TipoReto;
 import data.domain.Usuario;
+import data.dto.EntrenamientoAssembler;
+import data.dto.EntrenamientoDTO;
 import data.dto.RetoAssembler;
 import data.dto.RetoDTO;
 import data.dto.UsuarioAssembler;
@@ -164,6 +166,17 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		}
 		
 	}
+	
+	public List<EntrenamientoDTO> getEntrenamientos(long token) throws RemoteException {
+        System.out.println(" * RemoteFacade getEntrenamientos()");
+        List<Entrenamiento> entrenamientos = entrenamientoService.getEntrenamientos(this.stateServer.get(token));
+        if(entrenamientos.size() > 0) {
+            return EntrenamientoAssembler.getInstance().entrenamientoToDTO(entrenamientos);
+        } else {
+            throw new RemoteException("No se han podido recuperar tus entrenamientos");
+        }
+
+    }
 
 
 }
