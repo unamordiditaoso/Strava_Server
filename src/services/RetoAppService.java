@@ -34,6 +34,19 @@ public class RetoAppService {
 	
 		return reto;
 	}
+	
+	public List<Reto> getRetos(Usuario usuario) {
+		List<Reto> retos = new ArrayList<>();
+		
+		usuario.getRetos().forEach(r ->{
+				if (!retos.contains(r)) {
+					retos.add(r);
+				}
+			
+		});
+		
+		return retos;
+	}
 	public List<Reto> getRetosActivos(Usuario usuario){
 		List<Reto> retosAct = new ArrayList<>();
 		

@@ -22,6 +22,8 @@ public interface IRemoteFacade extends Remote{
 	
 	public void logOut(long token) throws RemoteException;
 	
+	public List<RetoDTO> getRetos(long token) throws RemoteException;
+	
 	public List<RetoDTO> getRetosActivos(long token) throws RemoteException;
 	
 	public boolean ApuntarseReto(long token, RetoDTO retoDTO) throws RemoteException;

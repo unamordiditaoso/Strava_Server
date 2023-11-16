@@ -32,9 +32,8 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	protected Map<String, String> usuariosRegistrados = new HashMap<>();
 	protected List<RetoDTO> retos = new ArrayList<>();
 	
-	protected RemoteFacade() throws RemoteException {
+	public RemoteFacade() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 //      No hay que hacerlo para esta semana
@@ -86,6 +85,17 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		} else {
 			throw new RemoteException("El usuario aun no ha iniciado sesion");
 		}
+	}
+	
+	public List<RetoDTO> getRetos(long token) throws RemoteException {
+		System.out.println(" * RemoteFacade getRetos()");
+		List<Reto> retos = retoService.getRetos(this.stateServer.get(token));
+		if(retos.size() > 0) {
+			return RetoAssembler.getInstance().retosToDTO(retos);
+		} else {
+			throw new RemoteException("No se han podido recuperar tus retos");
+		}
+
 	}
 
 	public List<RetoDTO> getRetosActivos(long token) throws RemoteException {
