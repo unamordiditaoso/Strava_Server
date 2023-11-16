@@ -10,7 +10,6 @@ public class Reto {
 	protected Date fecha_fin;
 	protected TipoReto tipo;
 	protected int objetivo;
-	
 	protected List<Deporte> deportes;
 
 	public Reto() {

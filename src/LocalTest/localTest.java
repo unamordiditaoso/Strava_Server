@@ -37,9 +37,9 @@ public class localTest {
 	        usuario.setNombre("igna");
 	        usuario.setCorreo("i@gmail.com");
 	        
-	        List<Deporte> deportes = new ArrayList<>();
-	        deportes.add(Deporte.Ciclismo);
-	        deportes.add(Deporte.Running);
+	        List<String> deportes = new ArrayList<>();
+	        deportes.add("Ciclismo");
+	        deportes.add("Running");
 	        
 	        RetoDTO reto = new RetoDTO();
 	        reto.setNombre("Corre 40 kms");
@@ -47,9 +47,12 @@ public class localTest {
 	        reto.setFechaInicio(date2);
 	        reto.setObjetivo(40);
 	        reto.setDeportes(deportes);
-	        reto.setTipoDeReto(TipoReto.Distancia);
+	        reto.setTipoDeReto("Distancia");
 	           
 	        List<RetoDTO> retos = new ArrayList<>();
+	        List<String> deportess = new ArrayList<>();
+	        deportess.add("Ciclismo");
+	        deportess.add("Running");
 
 	        try {
 	            facade = new RemoteFacade();
@@ -62,7 +65,7 @@ public class localTest {
 
 	            facade.crearEntrenamiento("Pajas entre colegas", "Ciclismo", 100, date, date2, 47, token);
 
-	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportes, token);
+	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportess, token);
 	            
 	            retos = facade.getRetos(token);
 	            

@@ -14,8 +14,8 @@ public class RetoDTO implements Serializable{
 			private int objetivo;
 			private Date fechaInicio;
 			private Date fechaFin;
-			private TipoReto tipoDeReto;
-			private List<Deporte> deportes;
+			private String tipoDeReto;
+			private List<String> deportes;
 			
 			public String getNombre() {
 				return nombre;
@@ -41,16 +41,16 @@ public class RetoDTO implements Serializable{
 			public void setFechaFin(Date fechaFin) {
 				this.fechaFin = fechaFin;
 			}
-			public TipoReto getTipoDeReto() {
+			public String getTipoDeReto() {
 				return tipoDeReto;
 			}
-			public void setTipoDeReto(TipoReto tipoDeReto) {
+			public void setTipoDeReto(String tipoDeReto) {
 				this.tipoDeReto = tipoDeReto;
 			}
-			public List<Deporte> getDeportes() {
+			public List<String> getDeportes() {
 				return deportes;
 			}
-			public void setDeportes(List<Deporte> deportes) {
+			public void setDeportes(List<String> deportes) {
 				this.deportes = deportes;
 			}		
 }
