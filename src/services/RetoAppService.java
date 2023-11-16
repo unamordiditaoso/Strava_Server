@@ -12,20 +12,20 @@ import data.domain.TipoReto;
 import data.domain.Usuario;
 
 public class RetoAppService {
-	public Reto crearReto(String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) {
+	public Reto crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) {
 		Reto reto = new Reto();
 		
-		if (tipo == TipoReto.Distancia) {
+		if (TipoReto.valueOf(tipo) == TipoReto.Distancia) {
 			reto.setNombre(nombre);
 			reto.setObjetivo(objetivo);
-			reto.setTipo(tipo);
+			reto.setTipo(TipoReto.valueOf(tipo));
 			reto.setFecha_ini(fecha_ini);
 			reto.setFecha_fin(fecha_fin);
 			reto.setDeportes(deportes);
 		} else {
 			reto.setNombre(nombre);
 			reto.setObjetivo(objetivo);
-			reto.setTipo(tipo);
+			reto.setTipo(TipoReto.valueOf(tipo));
 			reto.setFecha_ini(fecha_ini);
 			reto.setFecha_fin(fecha_fin);
 			reto.setDeportes(deportes);

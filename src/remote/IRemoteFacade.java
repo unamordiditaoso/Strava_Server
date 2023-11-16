@@ -32,8 +32,8 @@ public interface IRemoteFacade extends Remote{
 	
 	public List<String> ConsultarEstadoRetos(long token) throws RemoteException;
 	
-	public void crearReto( String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException;
+	public void crearReto( String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException;
 	
-	public void crearEntrenamiento(String titulo, Deporte deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException;
+	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException;
 	
 } 

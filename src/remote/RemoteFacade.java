@@ -62,11 +62,11 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		
 		
 	public synchronized long logIn(String correo, String password) throws RemoteException {
-			System.out.println("\" * RemoteFacade login(): \" + email + \" / \" + password");
+			System.out.println(" * RemoteFacade login(): " + correo + " " + password);
 			Usuario usuario = userService.login(correo, password);
 			
 			if(usuario != null) {
-				if(this.stateServer.values().contains(usuario)) {
+				if(!this.stateServer.values().contains(usuario)) {
 					Long token = Calendar.getInstance().getTimeInMillis();
 					this.stateServer.put(token, usuario);
 					return token;
@@ -139,7 +139,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 	
 	@Override
-	public void crearReto(String nombre, Integer objetivo, TipoReto tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException {
+	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException {
 		System.out.println(" * RemoteFacade crearReto nombre : " + nombre + " | fecha_inicio " + fecha_ini + " | fecha_fin " + fecha_fin + " | TipoReto " + tipo);
 								
 		Reto reto = retoService.crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes);
@@ -153,7 +153,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 
 	}
 	@Override
-	public void crearEntrenamiento(String titulo, Deporte deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException {
+	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException {
 		System.out.println(" * RemoteFacade crearEntrenamiento titulo : " + titulo + " | distancia " + distancia + " | fecha_fin " + fecha_fin + " | fecha_fin " + fecha_fin + " | duracion: " + duracion);
 		
 		Entrenamiento entrenamiento = entrenamientoService.crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion);

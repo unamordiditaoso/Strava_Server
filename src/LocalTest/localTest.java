@@ -54,30 +54,30 @@ public class localTest {
 	        try {
 	            facade = new RemoteFacade();
 
-	            facade.registro("i@gmail.com", "igna", date, 80, 190, 210, 60);
+	            //facade.registro("i@gmail.com", "igna", date, 80, 190, 210, 60);
 
 	            contrasenaUsuario.put("igna", "1111");
 	            
-	            long token1 = facade.logIn("i@gmail.com", "1111");
+	            token = facade.logIn("i@gmail.com", "1111");
 
-	            facade.crearEntrenamiento("Pajas entre colegas", Deporte.Ciclismo, 100, date, date2, 47);
+	            facade.crearEntrenamiento("Pajas entre colegas", "Ciclismo", 100, date, date2, 47);
 
-	            facade.crearReto("corre 5 kms", 100, TipoReto.Distancia, date, date2, deportes);
+	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportes);
 	            
-	            retos = facade.getRetos(token1);
+	            retos = facade.getRetos(token);
 	            
 	            for (RetoDTO retoDTO : retos) {
 	            	System.out.println("\t-" + retoDTO.getNombre() + " " + retoDTO.getDeportes());		
 	            }
 	            
-	            facade.ApuntarseReto(token1, reto);
+	            facade.ApuntarseReto(token, reto);
 
-	            List<RetoDTO> retosActivos = facade.getRetosActivos(token1);
+	            List<RetoDTO> retosActivos = facade.getRetosActivos(token);
 	            for (RetoDTO retoDTO : retosActivos) {
 	                System.out.println("\t- " + retoDTO.getNombre() + ". Deportes: " + reto.getDeportes() + ". Tipo de reto: " + reto.getTipoDeReto());
 	            }
 
-	            List<String> estadoRetos = facade.ConsultarEstadoRetos(token1);
+	            List<String> estadoRetos = facade.ConsultarEstadoRetos(token);
 	            for (String estado : estadoRetos) {
 	                System.out.println(estado);
 	            }
