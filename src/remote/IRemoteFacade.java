@@ -10,12 +10,13 @@ import data.domain.Reto;
 import data.domain.TipoReto;
 import data.domain.Usuario;
 import data.dto.RetoDTO;
+import data.dto.UsuarioDTO;
 
 public interface IRemoteFacade extends Remote{
 	
 //  No hay que hacerlo para esta semana	
 //	public void registro(String correo, String nombre, Date fecha_nacimiento) throws RemoteException;
-//	
+
 //	public void regsitroOpcional(String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException;
 		
 	public long logIn(String correo, String password) throws RemoteException;
@@ -32,8 +33,8 @@ public interface IRemoteFacade extends Remote{
 	
 	public List<String> ConsultarEstadoRetos(long token) throws RemoteException;
 	
-	public void crearReto( String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException;
+	public void crearReto( String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes, long token) throws RemoteException;
 	
-	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException;
+	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) throws RemoteException;
 	
 } 

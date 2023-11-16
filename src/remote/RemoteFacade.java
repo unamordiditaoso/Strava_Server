@@ -17,6 +17,7 @@ import data.domain.Usuario;
 import data.dto.RetoAssembler;
 import data.dto.RetoDTO;
 import data.dto.UsuarioAssembler;
+import data.dto.UsuarioDTO;
 import services.EntrenamientoAppService;
 import services.RetoAppService;
 import services.UserAppService;
@@ -130,7 +131,6 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	public List<String> ConsultarEstadoRetos(long token) throws RemoteException {
 		List<String> estadoRetos = retoService.consultarEstadoRetos(this.stateServer.get(token));
 		System.out.println("\n* RemoteFacade ConsultarEstadoRetos()");
-		
 		if (estadoRetos != null) {
 			return estadoRetos;
 		} else {
@@ -139,11 +139,10 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 	
 	@Override
-	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes) throws RemoteException {
+	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<Deporte> deportes, long token) throws RemoteException {
 		System.out.println(" * RemoteFacade crearReto nombre : " + nombre + " | fecha_inicio " + fecha_ini + " | fecha_fin " + fecha_fin + " | TipoReto " + tipo);
 								
-		Reto reto = retoService.crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes);
-		
+		Reto reto = retoService.crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, this.stateServer.get(token));
 		
 		if (reto != null) {
 			retos.add(RetoAssembler.getInstance().retoToDTO(reto));
@@ -153,10 +152,10 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 
 	}
 	@Override
-	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion) throws RemoteException {
+	public void crearEntrenamiento(String titulo, String deporte, Integer distancia, Date fecha_ini, Date fecha_fin, Integer duracion, long token) throws RemoteException {
 		System.out.println(" * RemoteFacade crearEntrenamiento titulo : " + titulo + " | distancia " + distancia + " | fecha_fin " + fecha_fin + " | fecha_fin " + fecha_fin + " | duracion: " + duracion);
 		
-		Entrenamiento entrenamiento = entrenamientoService.crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion);
+		Entrenamiento entrenamiento = entrenamientoService.crearEntrenamiento(titulo, deporte, distancia, fecha_ini, fecha_fin, duracion, this.stateServer.get(token));
 		
 		if (entrenamiento != null) {
 			System.out.println("Se ha creado el entrenamiento correctamente");

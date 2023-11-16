@@ -34,8 +34,8 @@ public class localTest {
 	        long token = 0l;
 
 	        UsuarioDTO usuario  = new UsuarioDTO();
-	        usuario.setNombre("aitor");
-	        usuario.setCorreo("a@gmail.com");
+	        usuario.setNombre("igna");
+	        usuario.setCorreo("i@gmail.com");
 	        
 	        List<Deporte> deportes = new ArrayList<>();
 	        deportes.add(Deporte.Ciclismo);
@@ -60,9 +60,9 @@ public class localTest {
 	            
 	            token = facade.logIn("i@gmail.com", "1111");
 
-	            facade.crearEntrenamiento("Pajas entre colegas", "Ciclismo", 100, date, date2, 47);
+	            facade.crearEntrenamiento("Pajas entre colegas", "Ciclismo", 100, date, date2, 47, token);
 
-	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportes);
+	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportes, token);
 	            
 	            retos = facade.getRetos(token);
 	            
@@ -78,9 +78,8 @@ public class localTest {
 	            }
 
 	            List<String> estadoRetos = facade.ConsultarEstadoRetos(token);
-	            for (String estado : estadoRetos) {
-	                System.out.println(estado);
-	            }
+	            
+	            estadoRetos.forEach(e -> System.out.println("\t - " + e));
 
 	        } catch (Exception e) {
 	            System.err.println("\t#Error: " + e + "\n");
