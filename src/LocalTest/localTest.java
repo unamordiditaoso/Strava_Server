@@ -63,9 +63,9 @@ public class localTest {
 	            
 	            token = facade.logIn("i@gmail.com", "1111");
 
-	            facade.crearEntrenamiento("Pajas entre colegas", "Ciclismo", 100, date, date2, 47, token);
+	            facade.crearEntrenamiento("ruta por el monte", "Ciclismo", 100, date, date2, 47, token);
 
-	            facade.crearReto("Paja de 5 minutos", 100, "Distancia", date, date2, deportess, token);
+	            facade.crearReto("5 minutos a sprint", 100, "Distancia", date, date2, deportess, token);
 	            
 	            retos = facade.getRetos(token);
 	            
