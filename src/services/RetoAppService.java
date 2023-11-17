@@ -50,6 +50,7 @@ public class RetoAppService {
 		
 		return retos;
 	}
+	
 	public List<Reto> getRetosActivos(Usuario usuario){
 		List<Reto> retosAct = new ArrayList<>();
 		
