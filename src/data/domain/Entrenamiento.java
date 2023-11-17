@@ -66,28 +66,6 @@ public class Entrenamiento {
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
-	
-	public boolean comprobarCorreo(String correo) {
-		
-		
-		return true;
-	}
-	
-	public boolean crearEntrenamiento(Entrenamiento entrenamiento) {
-		return true;
-	}
-	
-	public boolean crearReto(Reto reto) {
-		return true;
-	}
-	
-	public List<String> consultarEstadoRetos() {
-		return null;
-	}
-	
-	public boolean apuntarseReto(Reto reto) {
-		return true;
-	}
 
 	@Override
 	public String toString() {
