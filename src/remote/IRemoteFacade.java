@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import data.domain.Deporte;
 import data.domain.Reto;
@@ -16,10 +17,12 @@ import data.dto.UsuarioDTO;
 public interface IRemoteFacade extends Remote{
 	
 //  No hay que hacerlo para esta semana	
-//	public void registro(String correo, String nombre, Date fecha_nacimiento) throws RemoteException;
+	public void registro(String correo, String nombre, Date fecha_nacimiento, String contr) throws RemoteException;
 
-//	public void regsitroOpcional(String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException;
-		
+	public void regsitroOpcional(String contr, String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException;
+	
+	public Map<String, String> getUsuarios() throws RemoteException;
+	
 	public long logIn(String correo, String password) throws RemoteException;
 	
 	public void logOut(long token) throws RemoteException;

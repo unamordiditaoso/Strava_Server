@@ -1,5 +1,6 @@
 package services;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.domain.Usuario;
+import data.dto.RetoDTO;
 
 public class UserAppService {
 	static List<String> correos = new ArrayList<String>();
@@ -32,9 +34,8 @@ public class UserAppService {
 	public Usuario registro(String nombre, String correo, Date fecha_ncto) {
 		Usuario usuario = new Usuario();
 		
-		if (correos.contains(usuario.getCorreo())) {
+		if (!correos.contains(usuario.getCorreo())) {
 			correos.add(correo);
-		
 			usuario.setNombre(nombre);
 			usuario.setCorreo(correo);
 			usuario.setFecha_ncto(fecha_ncto);

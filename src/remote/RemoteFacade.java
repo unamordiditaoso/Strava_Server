@@ -39,28 +39,28 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		super();
 	}
 
-//      No hay que hacerlo para esta semana
-		public void registro(String correo, String nombre, Date fecha_nacimiento) throws RemoteException{
-//				System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
-//				Usuario usuario = userService.registro(nombre, correo, fecha_nacimiento);
-//				
-//				if(usuario != null) {
-//					usuariosRegistrados.put(correo, "1111");
-//					
-//				} else {
-//					throw new RemoteException("El registro no se ha completado correctamente");
-//				}
+
+		public void registro(String correo, String nombre, Date fecha_nacimiento, String contrasena) throws RemoteException{
+				System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
+				Usuario usuario = userService.registro(nombre, correo, fecha_nacimiento);
+				
+				if(usuario != null) {
+					usuariosRegistrados.put(correo, contrasena);
+					
+				} else {
+					throw new RemoteException("El registro no se ha completado correctamente");
+				}
 		}
-//		
-		public void regsitroOpcional(String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException {
-//			System.out.println("*RemoteFacade registro(). Nombre de usuario:" + nombre);
-//			Usuario usuario = userService.registroOpcional(nombre, correo, fecha_ncto, peso, altura, frec_card_max, frec_card_reposo);
-//			
-//			if (usuario != null) {
-//				usuariosRegistrados.put(correo, "1111");
-//			} else {
-//				throw new RemoteException("El registro no se ha completado correctamente");
-//			}
+
+		public void regsitroOpcional(String contrasena, String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException {
+			System.out.println("*RemoteFacade registro(). Nombre de usuario:" + nombre);
+			Usuario usuario = userService.registroOpcional(nombre, correo, fecha_ncto, peso, altura, frec_card_max, frec_card_reposo);
+			
+			if (usuario != null) {
+				usuariosRegistrados.put(correo, "1111");
+			} else {
+				throw new RemoteException("El registro no se ha completado correctamente");
+			}
 		}
 		
 		
@@ -90,10 +90,24 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 		}
 	}
 	
+	public Map<String, String> getUsuarios() throws RemoteException {
+		System.out.println(" * RemoteFacade getUsuarios()");
+		return usuariosRegistrados;
+	}
+	
 	public List<RetoDTO> getRetos() throws RemoteException {
 		System.out.println(" * RemoteFacade getRetos()");
+		List<RetoDTO> retosAct = new ArrayList<>();
 		if(retos.size() > 0) {
-			return retos;
+			Date hoy = new Date(Calendar.getInstance().getTimeInMillis());
+			retos.forEach(r ->{
+				if (r.getFechaInicio().before(hoy) && r.getFechaFin().after(hoy)) {
+					if (!retosAct.contains(r)) {
+						retosAct.add(r);
+					}
+				}
+			});
+			return retosAct;
 		} else {
 			throw new RemoteException("No se han podido recuperar todos retos");
 		}
@@ -184,13 +198,11 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 	
 	public List<EntrenamientoDTO> getEntrenamientos(long token) throws RemoteException {
-        System.out.println(this.stateServer.get(token));
         System.out.println(" * RemoteFacade getEntrenamientos()");
         
         List<Entrenamiento> entrenamientos = entrenamientoService.getEntrenamientos(this.stateServer.get(token));
         System.out.println(this.stateServer.get(token));
         if(entrenamientos.size() > 0) {
-        	System.out.println("A");
             return EntrenamientoAssembler.getInstance().entrenamientoToDTO(entrenamientos);
         } else {
             throw new RemoteException("No se han podido recuperar tus entrenamientos");
