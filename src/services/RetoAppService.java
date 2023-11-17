@@ -18,7 +18,6 @@ public class RetoAppService {
 		deportes.forEach(d->{
 			deportess.add(Deporte.valueOf(d));
 		});
-		
 		if (TipoReto.valueOf(tipo) == TipoReto.Distancia) {
 			reto.setNombre(nombre);
 			reto.setObjetivo(objetivo);

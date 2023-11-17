@@ -28,9 +28,9 @@ public class EntrenamientoAssembler {
 		dto.setFechaInicio(entrenamiento.getFecha_ini());
 		dto.setFechaFin(entrenamiento.getFecha_fin());
 		if(entrenamiento.getDeporte() == Deporte.Ciclismo) {
-			dto.setDeporte(Deporte.Ciclismo);
+			dto.setDeporte(Deporte.Ciclismo.toString());
 		} else if(entrenamiento.getDeporte() == Deporte.Running)
-				dto.setDeporte(Deporte.Running);
+				dto.setDeporte(Deporte.Running.toString());
 		return dto;
 	}
 	

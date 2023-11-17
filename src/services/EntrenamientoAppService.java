@@ -20,6 +20,7 @@ public class EntrenamientoAppService {
 		entrenamiento.setFecha_ini(fecha_ini);
 		entrenamiento.setFecha_fin(fecha_fin);
 		entrenamiento.setDistancia(distancia);
+		entrenamiento.setDuracion(duracion);
 		
 		usuario.add(entrenamiento);
 		

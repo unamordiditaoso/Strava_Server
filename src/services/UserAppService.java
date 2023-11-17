@@ -15,18 +15,18 @@ public class UserAppService {
 	public Usuario login(String correo, String password) {
 		//TODO: Get User using DAO and check 		
 		Usuario usuario = new Usuario();		
-		usuario.setCorreo("i@gmail.com");
+		usuario.setCorreo(correo);
 		usuario.setNombre("igna");
 		
 		//Generate the hash of the password
 		String sha1 = org.apache.commons.codec.digest.DigestUtils.sha1Hex(password);	
 		mInicioSesion.put(correo, sha1);
-		
-		if (mInicioSesion.containsKey(correo) && mInicioSesion.get(correo).equals(sha1)) {		
-			return usuario;
-		} else {
-			return null;
-		}
+		return usuario;
+//		if (mInicioSesion.containsKey(correo) && mInicioSesion.get(correo).equals(sha1)) {		
+//			
+//		} else {
+//			return null;
+//		}
 	}
 	
 	public Usuario registro(String nombre, String correo, Date fecha_ncto) {

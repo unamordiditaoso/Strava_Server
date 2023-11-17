@@ -143,7 +143,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	@Override
 	public void crearReto(String nombre, Integer objetivo, String tipo, Date fecha_ini, Date fecha_fin, List<String> deportes, long token) throws RemoteException {
 		System.out.println(" * RemoteFacade crearReto nombre : " + nombre + " | fecha_inicio " + fecha_ini + " | fecha_fin " + fecha_fin + " | TipoReto " + tipo);
-								
+						
 		Reto reto = retoService.crearReto(nombre, objetivo, tipo, fecha_ini, fecha_fin, deportes, this.stateServer.get(token));
 		
 		if (reto != null) {
@@ -168,9 +168,13 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 	
 	public List<EntrenamientoDTO> getEntrenamientos(long token) throws RemoteException {
+        System.out.println(this.stateServer.get(token));
         System.out.println(" * RemoteFacade getEntrenamientos()");
+        
         List<Entrenamiento> entrenamientos = entrenamientoService.getEntrenamientos(this.stateServer.get(token));
+        System.out.println(this.stateServer.get(token));
         if(entrenamientos.size() > 0) {
+        	System.out.println("A");
             return EntrenamientoAssembler.getInstance().entrenamientoToDTO(entrenamientos);
         } else {
             throw new RemoteException("No se han podido recuperar tus entrenamientos");

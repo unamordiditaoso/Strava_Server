@@ -13,7 +13,7 @@ public class EntrenamientoDTO implements Serializable{
 		private Date fechaInicio;
 		private Date fechaFin;
 		private int duracion;
-		private Deporte deporte;
+		private String deporte;
 		
 		public String getTitulo() {
 			return titulo;
@@ -45,10 +45,10 @@ public class EntrenamientoDTO implements Serializable{
 		public void setDuracion(int duracion) {
 			this.duracion = duracion;
 		}
-		public Deporte getDeporte() {
+		public String getDeporte() {
 			return deporte;
 		}
-		public void setDeporte(Deporte deporte) {
+		public void setDeporte(String deporte) {
 			this.deporte = deporte;
 		}	
 }
