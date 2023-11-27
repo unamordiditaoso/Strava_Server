@@ -40,9 +40,9 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 
 
-		public void registro(String correo, String nombre, Date fecha_nacimiento, String contrasena) throws RemoteException{
+		public void registro(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
 				System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
-				Usuario usuario = userService.registro(nombre, correo, fecha_nacimiento);
+				Usuario usuario = userService.registro(nombre, correo, fecha_ncto, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
 				
 				if(usuario != null) {
 					usuariosRegistrados.put(correo, contrasena);
@@ -52,16 +52,16 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 				}
 		}
 
-		public void regsitroOpcional(String contrasena, String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException {
-			System.out.println("*RemoteFacade registro(). Nombre de usuario:" + nombre);
-			Usuario usuario = userService.registroOpcional(nombre, correo, fecha_ncto, peso, altura, frec_card_max, frec_card_reposo);
-			
-			if (usuario != null) {
-				usuariosRegistrados.put(correo, "1111");
-			} else {
-				throw new RemoteException("El registro no se ha completado correctamente");
-			}
-		}
+//		public void regsitroOpcional(String contrasena, String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException {
+//			System.out.println("*RemoteFacade registro(). Nombre de usuario:" + nombre);
+//			Usuario usuario = userService.registroOpcional(nombre, correo, fecha_ncto, peso, altura, frec_card_max, frec_card_reposo);
+//			
+//			if (usuario != null) {
+//				usuariosRegistrados.put(correo, "1111");
+//			} else {
+//				throw new RemoteException("El registro no se ha completado correctamente");
+//			}
+//		}
 		
 		
 	public synchronized long logIn(String correo, String password) throws RemoteException {

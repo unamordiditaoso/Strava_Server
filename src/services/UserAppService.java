@@ -31,7 +31,7 @@ public class UserAppService {
 //		}
 	}
 	
-	public Usuario registro(String nombre, String correo, Date fecha_ncto) {
+	public Usuario registro(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep) {
 		Usuario usuario = new Usuario();
 		
 		if (!correos.contains(usuario.getCorreo())) {
@@ -39,6 +39,12 @@ public class UserAppService {
 			usuario.setNombre(nombre);
 			usuario.setCorreo(correo);
 			usuario.setFecha_ncto(fecha_ncto);
+			if (peso != null && altura != null && frecuenciaCardMax != null && frecuenciaCardRep != null) {
+				usuario.setPeso(peso);
+				usuario.setAltura(altura);
+				usuario.setFrec_card_max(frecuenciaCardMax);
+				usuario.setFrec_card_reposo(frecuenciaCardRep);
+			}
 		} else {
 			System.err.println("El correo ya esta registrado");
 			return null;
@@ -48,18 +54,18 @@ public class UserAppService {
 		return usuario;
 	} 
 	
-	public Usuario registroOpcional(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep){
-		Usuario usuario = registro(nombre, correo, fecha_ncto);
-		
-		if (usuario == null) {
-			System.err.println("El correo ya esta registrado");
-			return null;
-		}
-		usuario.setPeso(peso);
-		usuario.setAltura(altura);
-		usuario.setFrec_card_max(frecuenciaCardMax);
-		usuario.setFrec_card_reposo(frecuenciaCardRep);
-		
-		return usuario;
-	}
+//	public Usuario registroOpcional(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep){
+//		Usuario usuario = registro(nombre, correo, fecha_ncto);
+//		
+//		if (usuario == null) {
+//			System.err.println("El correo ya esta registrado");
+//			return null;
+//		}
+//		usuario.setPeso(peso);
+//		usuario.setAltura(altura);
+//		usuario.setFrec_card_max(frecuenciaCardMax);
+//		usuario.setFrec_card_reposo(frecuenciaCardRep);
+//		
+//		return usuario;
+//	}
 }
