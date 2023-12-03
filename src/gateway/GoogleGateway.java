@@ -11,7 +11,7 @@ public class GoogleGateway {
 	
 	private static GoogleGateway instance = new GoogleGateway();
 	
-	private GoogleGateway() {
+	public GoogleGateway() {
 	}
 	
 	public static GoogleGateway getInstance() {

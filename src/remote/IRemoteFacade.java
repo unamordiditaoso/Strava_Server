@@ -24,6 +24,10 @@ public interface IRemoteFacade extends Remote{
 	
 	public long logIn(String correo, String password, TipoRegistro tipReg) throws RemoteException;
 	
+	public boolean comprobarEmailMeta(String email) throws RemoteException;
+	
+	public boolean comprobarEmailGoogle(String email) throws RemoteException;
+	
 	public void logOut(long token) throws RemoteException;
 	
 	public List<RetoDTO> getRetos() throws RemoteException;

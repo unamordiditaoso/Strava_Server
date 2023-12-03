@@ -21,6 +21,7 @@ import data.dto.RetoAssembler;
 import data.dto.RetoDTO;
 import data.dto.UsuarioAssembler;
 import data.dto.UsuarioDTO;
+import gateway.GoogleGateway;
 import gateway.MetaGateway;
 import services.EntrenamientoAppService;
 import services.RetoAppService;
@@ -32,6 +33,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	private RetoAppService retoService = new RetoAppService();
 	private UserAppService userService = new UserAppService();
 	private MetaGateway metaGateway = new MetaGateway("0.0.0.0", 8001);
+	private GoogleGateway googleGateway = new GoogleGateway();
 	
 	
 	protected Map<Long, Usuario> stateServer = new HashMap<>();
@@ -54,33 +56,14 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 				throw new RemoteException("El registro no se ha completado correctamente");
 			}
 	}
-	
-//	public long comprobarTipoRegistro(String correo, String contrasena) throws RemoteException {
-//		System.out.println(" * RemoteFacade comprobarTipoRegistro(): " + correo + " " + contrasena);
-//		if(correo != null && contrasena != null) {
-//			for (Usuario usuario : this.usuarios) {
-//				if(usuario.getCorreo().equals(correo)) {
-//					if(usuario.gettReg() == TipoRegistro.Meta) {
-//						try {
-//							return loginMeta(correo, contrasena);
-//						} catch (Exception e) {
-//							System.out.println(e);
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return 0;
-//		
-//	}
 		
 	public synchronized long logIn(String correo, String password, TipoRegistro tipReg) throws RemoteException {
 			System.out.println(" * RemoteFacade login(): " + correo + " " + password + " loged by " + tipReg);
 			Usuario usuario = userService.login(correo, password, tipReg);
+			Long token;
 			if(usuario != null) {
 				if(usuario.gettReg().equals(TipoRegistro.Meta)) {
-					System.out.println("\n* RemoteFacade loginFacebook(). Email: " + correo + ", contraseña: " + password);
-					Long token;
+					System.out.println("\n* RemoteFacade loginMeta(). Email: " + correo + ", contraseña: " + password);
 					String hash = metaGateway.sendLogin(correo, password);
 					if(hash.equals("true")) {
 						token = Calendar.getInstance().getTimeInMillis();
@@ -90,25 +73,47 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 						throw new RemoteException("Login() meta failed \n");
 					}
 				} else if(usuario.gettReg().equals(TipoRegistro.Google)) {
-					
+					System.out.println("\n* RemoteFacade loginGoogle(). Email: " + correo + ", contraseña: " + password);
+					if(googleGateway.login(correo, password)) {
+						token = Calendar.getInstance().getTimeInMillis();
+						this.stateServer.put(token, usuario);
+						return token;
+					} else {
+						throw new RemoteException("Login() google failed \n");
+					}
 				}
 			}
-			
-			
-			
-			if(usuario != null) {
-				if(!this.stateServer.values().contains(usuario)) {
-					Long token = Calendar.getInstance().getTimeInMillis();
-					this.stateServer.put(token, usuario);
-					return token;
-				} else {
-					throw new RemoteException("El usuario ya ha iniciado sesion");
-				}
-			} else {
-				throw new RemoteException("No se ha podido iniciar sesion correctamente");
-			}
-		}
-
+			return 01;
+	}
+		
+	 public synchronized boolean comprobarEmailMeta(String email) throws RemoteException {
+	    	System.out.println("\n* RemoteFacade comprobarEmail(). Email: " + email);
+	    	
+	    	String devuelve = metaGateway.sendCheckMail(email);
+	    	
+	    	if(!devuelve.equals("")) {
+	    		if(devuelve.equals("true")) {
+	    			return true;
+	    		} else {
+	    			throw new RemoteException("Email is not loged in Facebook");
+	    		}
+	    	} else {
+	    		throw new RemoteException("comprobarMail() failed");
+	    	}
+	    }
+	    
+	    public synchronized boolean comprobarEmailGoogle(String email) throws RemoteException {
+	    	System.out.println("\n* RemoteFacade comprobarEmail(). Email: " + email);
+	    	
+	    	boolean result = googleGateway.comprobarUsuario(email);
+	    	
+	    	if(result) {
+	    		return true;
+	    	} else {
+	    		throw new RemoteException("comprobarEmail() failed");
+	    	}
+	    }
+	
 	public void logOut(long token) throws RemoteException {
 		System.out.println(" * RemoteFacade logout(): " + token);
 		if (this.stateServer.containsKey(token)) {

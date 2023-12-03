@@ -32,9 +32,10 @@ public class Main {
 			
 		//Bind remote facade instance to a sirvice name using RMIRegistry
 		try {
-			IRemoteFacade remoteFacade = new RemoteFacade();			
+			IRemoteFacade remoteFacade = new RemoteFacade();	
 			Naming.rebind(name, remoteFacade);
 			System.out.println(" * Strava Server v1 '" + name + "' started!!");
+			remoteFacade.logIn("elchigna@gmail.com", "111", TipoRegistro.Meta);
 		} catch (Exception ex) {
 			System.err.println(" # Strava Server Exception: " + ex.getMessage());
 			ex.printStackTrace();
@@ -57,7 +58,7 @@ public class Main {
 		Date d9 = new Date(2023, 11, 13, 00, 00);
 		Date d10 = new Date(2023, 12, 01, 00, 00);
 		
-		Usuario u = new Usuario("i.prieto@opendeusto.es", "unamordiditaoso", d, TipoRegistro.Google);
+		Usuario u = new Usuario("i.prieto@opendeusto.es", "unamordiditaoso", d, TipoRegistro.Google); 
 		
 		Entrenamiento e1 = new Entrenamiento("Vuelta al mundo en 30 mins", Deporte.Running, 20, d1, d2, 30);
 		Entrenamiento e2 = new Entrenamiento("Vuelta al mundo en 10 mins", Deporte.Ciclismo, 15, d3, d4, 10);
