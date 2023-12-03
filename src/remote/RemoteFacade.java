@@ -12,6 +12,7 @@ import java.util.Map;
 import data.domain.Deporte;
 import data.domain.Entrenamiento;
 import data.domain.Reto;
+import data.domain.TipoRegistro;
 import data.domain.TipoReto;
 import data.domain.Usuario;
 import data.dto.EntrenamientoAssembler;
@@ -20,6 +21,7 @@ import data.dto.RetoAssembler;
 import data.dto.RetoDTO;
 import data.dto.UsuarioAssembler;
 import data.dto.UsuarioDTO;
+import gateway.MetaGateway;
 import services.EntrenamientoAppService;
 import services.RetoAppService;
 import services.UserAppService;
@@ -29,44 +31,70 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	private EntrenamientoAppService entrenamientoService = new EntrenamientoAppService();
 	private RetoAppService retoService = new RetoAppService();
 	private UserAppService userService = new UserAppService();
+	private MetaGateway metaGateway = new MetaGateway("0.0.0.0", 8001);
 	
 	
 	protected Map<Long, Usuario> stateServer = new HashMap<>();
 	protected Map<String, String> usuariosRegistrados = new HashMap<>();
 	protected List<RetoDTO> retos = new ArrayList<>();
+	protected List<Usuario> usuarios = new ArrayList<>();
 	
 	public RemoteFacade() throws RemoteException {
 		super();
 	}
 
 
-		public void registro(String nombre, String correo, Date fecha_ncto, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
-				System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
-				Usuario usuario = userService.registro(nombre, correo, fecha_ncto, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
-				
-				if(usuario != null) {
-					usuariosRegistrados.put(correo, contrasena);
-					
-				} else {
-					throw new RemoteException("El registro no se ha completado correctamente");
-				}
-		}
-
-//		public void regsitroOpcional(String contrasena, String correo, String nombre, Date fecha_ncto, int peso, int altura, int frec_card_max, int frec_card_reposo) throws RemoteException {
-//			System.out.println("*RemoteFacade registro(). Nombre de usuario:" + nombre);
-//			Usuario usuario = userService.registroOpcional(nombre, correo, fecha_ncto, peso, altura, frec_card_max, frec_card_reposo);
-//			
-//			if (usuario != null) {
-//				usuariosRegistrados.put(correo, "1111");
-//			} else {
-//				throw new RemoteException("El registro no se ha completado correctamente");
+	public void registro(String nombre, String correo, Date fecha_ncto, TipoRegistro tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
+			System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
+			Usuario usuario = userService.registro(nombre, correo, fecha_ncto, tipReg, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
+			if(usuario != null) {
+				usuariosRegistrados.put(correo, contrasena);
+				usuarios.add(usuario);
+			} else {
+				throw new RemoteException("El registro no se ha completado correctamente");
+			}
+	}
+	
+//	public long comprobarTipoRegistro(String correo, String contrasena) throws RemoteException {
+//		System.out.println(" * RemoteFacade comprobarTipoRegistro(): " + correo + " " + contrasena);
+//		if(correo != null && contrasena != null) {
+//			for (Usuario usuario : this.usuarios) {
+//				if(usuario.getCorreo().equals(correo)) {
+//					if(usuario.gettReg() == TipoRegistro.Meta) {
+//						try {
+//							return loginMeta(correo, contrasena);
+//						} catch (Exception e) {
+//							System.out.println(e);
+//						}
+//					}
+//				}
 //			}
 //		}
+//		return 0;
+//		
+//	}
 		
-		
-	public synchronized long logIn(String correo, String password) throws RemoteException {
-			System.out.println(" * RemoteFacade login(): " + correo + " " + password);
-			Usuario usuario = userService.login(correo, password);
+	public synchronized long logIn(String correo, String password, TipoRegistro tipReg) throws RemoteException {
+			System.out.println(" * RemoteFacade login(): " + correo + " " + password + " loged by " + tipReg);
+			Usuario usuario = userService.login(correo, password, tipReg);
+			if(usuario != null) {
+				if(usuario.gettReg().equals(TipoRegistro.Meta)) {
+					System.out.println("\n* RemoteFacade loginFacebook(). Email: " + correo + ", contraseña: " + password);
+					Long token;
+					String hash = metaGateway.sendLogin(correo, password);
+					if(hash.equals("true")) {
+						token = Calendar.getInstance().getTimeInMillis();
+			        	this.stateServer.put(token, usuario);
+			        	return token;
+					} else {
+						throw new RemoteException("Login() meta failed \n");
+					}
+				} else if(usuario.gettReg().equals(TipoRegistro.Google)) {
+					
+				}
+			}
+			
+			
 			
 			if(usuario != null) {
 				if(!this.stateServer.values().contains(usuario)) {

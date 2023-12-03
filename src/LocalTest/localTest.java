@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.domain.Deporte;
+import data.domain.TipoRegistro;
 import data.domain.TipoReto;
 import data.dto.RetoDTO;
 import data.dto.UsuarioDTO;
@@ -57,11 +58,11 @@ public class localTest {
 	        try {
 	            facade = new RemoteFacade();
 
-	            //facade.registro("i@gmail.com", "igna", date, 80, 190, 210, 60);
+	            facade.registro("i@gmail.com", "igna", date, TipoRegistro.Meta, 80, 190, 210, 60, null);
 
 	            contrasenaUsuario.put("igna", "1111");
 	            
-	            token = facade.logIn("i@gmail.com", "1111");
+	            token = facade.logIn("i@gmail.com", "1111", TipoRegistro.Meta);
 
 	            facade.crearEntrenamiento("ruta por el monte", "Ciclismo", 100, date, date2, 47, token);
 
@@ -89,11 +90,11 @@ public class localTest {
 	        }
 
 	        try{
-	            token = facade.logIn(usuario.getCorreo(), "1111");
+	            token = facade.logIn(usuario.getCorreo(), "1111", TipoRegistro.Meta);
 	            
 	            facade.logOut(token);
 
-	            token = facade.logIn("iñaki", "0000");
+	            token = facade.logIn("iñaki", "0000", TipoRegistro.Meta);
 
 	            facade.logOut(token);
 	        } catch (Exception e) {
