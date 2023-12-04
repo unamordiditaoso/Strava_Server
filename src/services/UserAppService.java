@@ -32,7 +32,7 @@ public class UserAppService {
 //		}
 	}
 	
-	public Usuario registro(String nombre, String correo, Date fecha_ncto, TipoRegistro tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep) {
+	public Usuario registro(String nombre, String correo, Date fecha_ncto, String tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep) {
 		Usuario usuario = new Usuario();
 		
 		if (!correos.contains(usuario.getCorreo())) {
@@ -40,7 +40,7 @@ public class UserAppService {
 			usuario.setNombre(nombre);
 			usuario.setCorreo(correo);
 			usuario.setFecha_ncto(fecha_ncto);
-			usuario.settReg(tipReg);
+		usuario.settReg(TipoRegistro.valueOf(tipReg));
 			if (peso != null && altura != null && frecuenciaCardMax != null && frecuenciaCardRep != null) {
 				usuario.setPeso(peso);
 				usuario.setAltura(altura);

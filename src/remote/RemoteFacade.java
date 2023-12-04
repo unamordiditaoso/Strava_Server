@@ -49,7 +49,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	public void registro(String nombre, String correo, Date fecha_ncto, String tipoReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
 			System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
 			TipoRegistro tipReg = TipoRegistro.valueOf(tipoReg);
-			Usuario usuario = userService.registro(nombre, correo, fecha_ncto, tipReg, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
+			Usuario usuario = userService.registro(nombre, correo, fecha_ncto, tipoReg, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
 			if(usuario != null) {
 				usuariosRegistrados.put(correo, contrasena);
 				usuarios.add(usuario);
