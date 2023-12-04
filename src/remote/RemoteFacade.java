@@ -46,8 +46,9 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	}
 
 
-	public void registro(String nombre, String correo, Date fecha_ncto, TipoRegistro tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
+	public void registro(String nombre, String correo, Date fecha_ncto, String tipoReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
 			System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
+			TipoRegistro tipReg = TipoRegistro.valueOf(tipoReg);
 			Usuario usuario = userService.registro(nombre, correo, fecha_ncto, tipReg, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
 			if(usuario != null) {
 				usuariosRegistrados.put(correo, contrasena);
@@ -57,9 +58,9 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 			}
 	}
 		
-	public synchronized long logIn(String correo, String password, TipoRegistro tipReg) throws RemoteException {
-			System.out.println(" * RemoteFacade login(): " + correo + " " + password + " loged by " + tipReg);
-			Usuario usuario = userService.login(correo, password, tipReg);
+	public synchronized long logIn(String correo, String password) throws RemoteException {
+			System.out.println(" * RemoteFacade login(): " + correo + " " + password);
+			Usuario usuario = userService.login(correo, password);
 			Long token;
 			if(usuario != null) {
 				if(usuario.gettReg().equals(TipoRegistro.Meta)) {

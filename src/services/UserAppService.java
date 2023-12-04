@@ -14,14 +14,13 @@ import data.dto.RetoDTO;
 public class UserAppService {
 	static List<String> correos = new ArrayList<String>();
 	Map<String, String> mInicioSesion = new HashMap<String, String>();
+	Map<String, Usuario> usuariosRegistrados = new HashMap<>();
 
-	public Usuario login(String correo, String password, TipoRegistro tipReg) {
+	public Usuario login(String correo, String password) {
 		//TODO: Get User using DAO and check 		
-		Usuario usuario = new Usuario();		
-		usuario.setCorreo(correo);
-		usuario.setNombre("igna");
-		usuario.settReg(tipReg);
+		Usuario usuario = usuariosRegistrados.get(correo);
 		
+		System.out.println(usuario.getNombre());
 		//Generate the hash of the password
 		String sha1 = org.apache.commons.codec.digest.DigestUtils.sha1Hex(password);	
 		mInicioSesion.put(correo, sha1);
@@ -48,6 +47,7 @@ public class UserAppService {
 				usuario.setFrec_card_max(frecuenciaCardMax);
 				usuario.setFrec_card_reposo(frecuenciaCardRep);
 			}
+			usuariosRegistrados.put(correo, usuario);
 		} else {
 			System.err.println("El correo ya esta registrado");
 			return null;

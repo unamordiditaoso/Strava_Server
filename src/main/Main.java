@@ -35,7 +35,6 @@ public class Main {
 			IRemoteFacade remoteFacade = new RemoteFacade();	
 			Naming.rebind(name, remoteFacade);
 			System.out.println(" * Strava Server v1 '" + name + "' started!!");
-			remoteFacade.logIn("elchigna@gmail.com", "111", TipoRegistro.Meta);
 		} catch (Exception ex) {
 			System.err.println(" # Strava Server Exception: " + ex.getMessage());
 			ex.printStackTrace();

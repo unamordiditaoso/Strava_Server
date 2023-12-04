@@ -18,11 +18,11 @@ import data.dto.UsuarioDTO;
 public interface IRemoteFacade extends Remote{
 	
 //  No hay que hacerlo para esta semana	
-	public void registro(String nombre, String correo, Date fecha_ncto, TipoRegistro tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException;
+	public void registro(String nombre, String correo, Date fecha_ncto, String tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException;
 	
 	public Map<String, String> getUsuarios() throws RemoteException;
 	
-	public long logIn(String correo, String password, TipoRegistro tipReg) throws RemoteException;
+	public long logIn(String correo, String password) throws RemoteException;
 	
 	public boolean comprobarEmailMeta(String email) throws RemoteException;
 	
