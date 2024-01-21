@@ -3,7 +3,15 @@ package data.domain;
 import java.util.Date;
 import java.util.List;
 
+
+import javax.persistence.*;
+
+
+@Entity
 public class Entrenamiento {
+	@Id
+    @GeneratedValue(strategy=GenerationType.TABLE)
+    long id;
 	protected String titulo;
 	protected Deporte deporte;
 	protected int distancia;

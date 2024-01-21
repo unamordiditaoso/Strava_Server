@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+
+
+
+@Entity
 public class Reto {
+	@Id
+    @GeneratedValue(strategy=GenerationType.TABLE)
+    long id;
 	protected String nombre;
 	protected Date fecha_ini;
 	protected Date fecha_fin;

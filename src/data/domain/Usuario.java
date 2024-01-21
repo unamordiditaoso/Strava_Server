@@ -5,7 +5,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
+
+
+
+@Entity
 public class Usuario {
+	@Id
 	protected String correo;
 	protected String nombre;
 	protected Date fecha_ncto;
@@ -14,8 +20,9 @@ public class Usuario {
 	protected int frec_card_max;
 	protected int frec_card_reposo;
 	protected TipoRegistro tReg;
-	
+	@OneToMany(cascade=CascadeType.ALL)
 	protected List<Entrenamiento> entrenamientos;
+	@ManyToMany(cascade=CascadeType.ALL)
 	protected List<Reto> retos;
 	
 	public Usuario() {
