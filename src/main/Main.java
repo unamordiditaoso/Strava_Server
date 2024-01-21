@@ -7,6 +7,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import data.domain.Deporte;
 import data.domain.Entrenamiento;
 import data.domain.Reto;
@@ -67,5 +72,20 @@ public class Main {
 		
 		Reto r1 = new Reto("Reto de tiempo", d7, d8, TipoReto.Tiempo, 50, Arrays.asList(Deporte.values()));
 		Reto r2 = new Reto("Reto de distancia", d9, d10, TipoReto.Distancia, 40, Arrays.asList(Deporte.Ciclismo));
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("stravaServer");
+
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+		
+		u.getEntrenamientos().add(e1);
+        u.getEntrenamientos().add(e2);
+        u.getEntrenamientos().add(e3);
+
+        u.getRetos().add(r1);
+        u.getRetos().add(r2);
+
+        em.persist(u);
+        tx.commit();
 	}
 }
