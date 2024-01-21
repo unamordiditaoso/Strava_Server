@@ -48,13 +48,23 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 
 	public void registro(String nombre, String correo, Date fecha_ncto, String tipoReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep, String contrasena) throws RemoteException{
 			System.out.println("* RemoteFacade registro(). Nombre usuario:" + nombre);
-			TipoRegistro tipReg = TipoRegistro.valueOf(tipoReg);
 			Usuario usuario = userService.registro(nombre, correo, fecha_ncto, tipoReg, peso, altura, frecuenciaCardMax, frecuenciaCardRep);
-			if(usuario != null) {
-				usuariosRegistrados.put(correo, contrasena);
-				usuarios.add(usuario);
-			} else {
-				throw new RemoteException("El registro no se ha completado correctamente");
+			
+			if (tipoReg.equals("Meta")) {
+				String hash = metaGateway.login(correo, contrasena);
+				if(usuario != null && hash.equals("true")) {
+					usuariosRegistrados.put(correo, contrasena);
+					usuarios.add(usuario);
+				} else {
+					System.out.println("El registro no se ha completado correctamente");
+				}
+			} else if (tipoReg.equals("Google")) {
+				if (googleGateway.login(correo, contrasena).equals("true")) {
+					usuariosRegistrados.put(correo, contrasena);
+					usuarios.add(usuario);
+				} else {
+					System.out.println("El registro no se ha completado correctamente");
+				}
 			}
 	}
 		
@@ -65,7 +75,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 			if(usuario != null) {
 				if(usuario.gettReg().equals(TipoRegistro.Meta)) {
 					System.out.println("\n* RemoteFacade loginMeta(). Email: " + correo + ", contraseña: " + password);
-					String hash = metaGateway.sendLogin(correo, password);
+					String hash = metaGateway.login(correo, password);
 					if(hash.equals("true")) {
 						token = Calendar.getInstance().getTimeInMillis();
 			        	this.stateServer.put(token, usuario);
@@ -75,7 +85,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 					}
 				} else if(usuario.gettReg().equals(TipoRegistro.Google)) {
 					System.out.println("\n* RemoteFacade loginGoogle(). Email: " + correo + ", contraseña: " + password);
-					if(googleGateway.login(correo, password)) {
+					if(googleGateway.login(correo, password).equals("true")) {
 						token = Calendar.getInstance().getTimeInMillis();
 						this.stateServer.put(token, usuario);
 						return token;
@@ -90,7 +100,7 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	 public synchronized boolean comprobarEmailMeta(String email) throws RemoteException {
 	    	System.out.println("\n* RemoteFacade comprobarEmail(). Email: " + email);
 	    	
-	    	String devuelve = metaGateway.sendCheckMail(email);
+	    	String devuelve = metaGateway.comprobarUsuario(email);
 	    	
 	    	if(!devuelve.equals("")) {
 	    		if(devuelve.equals("true")) {
@@ -106,9 +116,9 @@ public class RemoteFacade extends UnicastRemoteObject implements IRemoteFacade{
 	    public synchronized boolean comprobarEmailGoogle(String email) throws RemoteException {
 	    	System.out.println("\n* RemoteFacade comprobarEmail(). Email: " + email);
 	    	
-	    	boolean result = googleGateway.comprobarUsuario(email);
+	    	String result = googleGateway.comprobarUsuario(email);
 	    	
-	    	if(result) {
+	    	if(result.equals("true")) {
 	    		return true;
 	    	} else {
 	    		throw new RemoteException("comprobarEmail() failed");

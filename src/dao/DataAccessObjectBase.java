@@ -5,12 +5,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import data.domain.Usuario;
-
-public class DataAccessObjectBase {
+public class DataAccessObjectBase{
 	protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory("STRAVA");
 	
-	public void borrar(Object object) {
+	public void borrarObject(Object object) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
@@ -30,7 +28,7 @@ public class DataAccessObjectBase {
 		
 	}
 	
-	public void guardar(Object object) {
+	public void guardarObject(Object object) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		

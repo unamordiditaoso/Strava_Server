@@ -40,7 +40,7 @@ public class UserAppService {
 			usuario.setNombre(nombre);
 			usuario.setCorreo(correo);
 			usuario.setFecha_ncto(fecha_ncto);
-		usuario.settReg(TipoRegistro.valueOf(tipReg));
+			usuario.settReg(TipoRegistro.valueOf(tipReg));
 			if (peso != null && altura != null && frecuenciaCardMax != null && frecuenciaCardRep != null) {
 				usuario.setPeso(peso);
 				usuario.setAltura(altura);

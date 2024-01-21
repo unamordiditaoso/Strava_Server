@@ -10,15 +10,15 @@ import javax.persistence.Query;
 import data.domain.Entrenamiento;
 
 
-public class SesionDAO extends DataAccessObjectBase implements IDataAccessObject<Entrenamiento>{
+public class EntrenamientoDAO extends DataAccessObjectBase implements IDataAccessObject<Entrenamiento>{
 
-	private static SesionDAO instance;
+	private static EntrenamientoDAO instance;
 	
-	private SesionDAO() { }
+	private EntrenamientoDAO() { }
 	
-	public static SesionDAO getInstance() {
+	public static EntrenamientoDAO getInstance() {
 		if(instance == null) {
-			instance = new SesionDAO();
+			instance = new EntrenamientoDAO();
 		}
 		return instance;
 	}

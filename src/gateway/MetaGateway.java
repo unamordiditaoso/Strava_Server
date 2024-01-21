@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-public class MetaGateway {
+public class MetaGateway implements IGatewayFactory{
 	
 	private String MetaServerIP;
 	private int serverPort;
@@ -15,7 +15,7 @@ public class MetaGateway {
 		serverPort = servPort;
 	}
 	
-	public String sendLogin(String email, String contrasena) {
+	public String login(String email, String contrasena) {
 		String message = "login" + DELIMITIER + email + DELIMITIER + contrasena;
 		String usuario = null;
 		
@@ -35,7 +35,7 @@ public class MetaGateway {
 		return usuario;
 	}
 	
-	public String sendCheckMail(String email) {
+	public String comprobarUsuario(String email) {
 		String message = "comprobarEmail" + DELIMITIER + email;
 		String resultado = null;
 		
