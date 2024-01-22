@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "Reto")
 public class Reto {
 	@Id
     @GeneratedValue(strategy=GenerationType.TABLE)
@@ -18,7 +19,22 @@ public class Reto {
 	protected Date fecha_fin;
 	protected TipoReto tipo;
 	protected int objetivo;
-	protected List<Deporte> deportes;
+	@ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_U") 
+    private Usuario aceptado;
+    @ManyToMany
+    @JoinTable(
+            name = "retos_completados",
+            joinColumns = @JoinColumn(name = "nombre_r"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_email", 
+            referencedColumnName = "correo")
+        )
+    private List<Usuario> usuariosCompletados = new ArrayList<>();
+
+
+    @Enumerated(EnumType.STRING)
+    @Transient
+    private List<Deporte> deportes = new ArrayList<>();
 
 	public Reto() {
 		super();
@@ -28,6 +44,7 @@ public class Reto {
 		this.tipo = TipoReto.Distancia;
 		this.objetivo = 0;
 		this.deportes = new ArrayList<>();
+		this.usuariosCompletados = new ArrayList<Usuario>();
 	}
 	
 	public Reto(String nombre, Date fecha_ini, Date fecha_fin, TipoReto tipo, int objetivo, List<Deporte> deportes) {
@@ -38,6 +55,7 @@ public class Reto {
 		this.tipo = tipo;
 		this.objetivo = objetivo;
 		this.deportes = deportes;
+		this.usuariosCompletados = new ArrayList<Usuario>();
 	}
 
 
@@ -88,6 +106,18 @@ public class Reto {
 
 	public void setDeportes(List<Deporte> deportes) {
 		this.deportes = deportes;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public List<Usuario> getUsuariosCompletados() {
+		return usuariosCompletados;
+	}
+
+	public void setUsuariosCompletados(List<Usuario> usuariosCompletados) {
+		this.usuariosCompletados = usuariosCompletados;
 	}
 
 	@Override

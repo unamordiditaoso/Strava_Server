@@ -13,7 +13,8 @@ public class UsuarioDAO extends DataAccessObjectBase implements IDataAccessObjec
 
 	private static UsuarioDAO instance;
 	
-	private UsuarioDAO() { }
+	private UsuarioDAO() {	}
+	
 	
 	public static UsuarioDAO getInstance() {
 		if(instance == null) {
@@ -24,13 +25,13 @@ public class UsuarioDAO extends DataAccessObjectBase implements IDataAccessObjec
 	
 	@Override
 	public void guardar(Usuario object) {
-		Usuario storedObject = instance.find(object.getCorreo());
 		
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
 		try {
 			tx.begin();
+			Usuario storedObject = instance.find(object.getCorreo());
 			
 			if (storedObject != null) {
 				em.merge(object);
@@ -75,6 +76,7 @@ public class UsuarioDAO extends DataAccessObjectBase implements IDataAccessObjec
 
 	@Override
 	public List<Usuario> findAll() {
+		System.out.println("z");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
@@ -84,8 +86,9 @@ public class UsuarioDAO extends DataAccessObjectBase implements IDataAccessObjec
 			tx.begin();
 			
 			Query q = (Query) em.createQuery("SELECT u FROM Usuario u");
-			
-			usuarios = q.getResultList();
+			System.out.println("xsxx");
+			usuarios = (List<Usuario>) q.getResultList();
+			System.out.println("xxx");
 			
 			tx.commit();
 		} catch (Exception e) {

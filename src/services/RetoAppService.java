@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import dao.RetoDAO;
+import dao.UsuarioDAO;
 import data.domain.Deporte;
 import data.domain.Entrenamiento;
 import data.domain.Reto;
@@ -33,7 +35,11 @@ public class RetoAppService {
 			reto.setFecha_fin(fecha_fin);
 			reto.setDeportes(deportess);
 		}
-		usuario.add(reto);
+		usuario.anadirRetoAceptados(reto);
+		//RetoDAO.getInstance().guardar(reto);
+        //Usuario usr = UsuarioDAO.getInstance().find(usuario.getCorreo());
+
+        //UsuarioDAO.getInstance().guardar(usr);
 	
 		return reto;
 	}
@@ -41,7 +47,7 @@ public class RetoAppService {
 	public List<Reto> getRetos(Usuario usuario) {
 		List<Reto> retos = new ArrayList<>();
 		
-		usuario.getRetos().forEach(r ->{
+		usuario.getRetosAceptados().forEach(r ->{
 				if (!retos.contains(r)) {
 					retos.add(r);
 				}
@@ -55,7 +61,7 @@ public class RetoAppService {
 		List<Reto> retosAct = new ArrayList<>();
 		
 		Date hoy = new Date(Calendar.getInstance().getTimeInMillis());
-		usuario.getRetos().forEach(r ->{
+		usuario.getRetosAceptados().forEach(r ->{
 			if (r.getFecha_ini().before(hoy) && r.getFecha_fin().after(hoy)) {
 				if (!retosAct.contains(r)) {
 					retosAct.add(r);
@@ -93,21 +99,30 @@ public class RetoAppService {
 	}
 	
 	public boolean apuntarseReto(Usuario usuario, Reto reto) {
-		if (reto != null && !usuario.getRetos().contains(reto)) {
-			usuario.add(reto);
-			System.out.println(String.format("Te has apuntado al reto: %s", reto.toString()));
-			return true;
-		} else {
-			return false;
-		}	
+		if (usuario.getRetosAceptados().contains(reto)) {
+            System.out.println("El usuario ya está apuntado a este reto.");
+            return false;
+        }
+
+        usuario.getRetosAceptados().add(reto);
+
+        try {
+            //UsuarioDAO.getInstance().guardar(usuario);
+
+            System.out.println("Usuario apuntado correctamente al reto.");
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Error al apuntar al usuario al reto: " + ex.getMessage());
+            return false;
+        }	
 	}
 	
 	
 	public List<String> consultarEstadoRetos(Usuario usuario){
 		List<String> estadoRetos = new ArrayList<String>();
 		
-		if (usuario.getRetos().size() != 0) {
-			usuario.getRetos().forEach(r -> {
+		if (usuario.getRetosAceptados().size() != 0) {
+			usuario.getRetosAceptados().forEach(r -> {
 				
 				float por = comprobarReto(usuario, r);
 				

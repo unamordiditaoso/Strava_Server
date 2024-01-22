@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "Usuario")
 public class Usuario {
 	@Id
 	protected String correo;
@@ -20,10 +21,16 @@ public class Usuario {
 	protected int frec_card_max;
 	protected int frec_card_reposo;
 	protected TipoRegistro tReg;
-	@OneToMany(cascade=CascadeType.ALL)
-	protected List<Entrenamiento> entrenamientos;
-	@ManyToMany(cascade=CascadeType.ALL)
-	protected List<Reto> retos;
+	
+	@OneToMany(mappedBy = "aceptado", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reto> retosAceptados = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "usuariosCompletados", fetch = FetchType.EAGER)
+    private List<Reto> retosCompletados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Entrenamiento> entrenamientos = new ArrayList<>();
+
 	
 	public Usuario() {
 		super();
@@ -35,9 +42,9 @@ public class Usuario {
 		this.frec_card_max = 0;
 		this.frec_card_reposo = 0;
 		this.tReg = TipoRegistro.Google;
-		
-		this.entrenamientos = new ArrayList<>();
-		this.retos = new ArrayList<>();
+		this.retosAceptados = new ArrayList<Reto>();
+        this.retosCompletados = new ArrayList<Reto>();
+        this.entrenamientos = new ArrayList<Entrenamiento>();
 	}
 	
 	
@@ -52,9 +59,9 @@ public class Usuario {
 		this.peso = 0;
 		this.frec_card_max = 0;
 		this.frec_card_reposo = 0;
-		
-		this.entrenamientos = new ArrayList<>();
-		this.retos = new ArrayList<>();
+		this.retosAceptados = new ArrayList<Reto>();
+        this.retosCompletados = new ArrayList<Reto>();
+        this.entrenamientos = new ArrayList<Entrenamiento>();
 	}
 
 
@@ -70,9 +77,9 @@ public class Usuario {
 		this.frec_card_max = frec_card_max;
 		this.frec_card_reposo = frec_card_reposo;
 		this.tReg = tReg;
-		
-		this.entrenamientos = new ArrayList<>();
-		this.retos = new ArrayList<>();
+		this.retosAceptados = new ArrayList<Reto>();
+        this.retosCompletados = new ArrayList<Reto>();
+        this.entrenamientos = new ArrayList<Entrenamiento>();
 	}
 	
 	public String getCorreo() {
@@ -129,18 +136,26 @@ public class Usuario {
 	public void setEntrenamientos(List<Entrenamiento> entrenamientos) {
 		this.entrenamientos = entrenamientos;
 	}
-	public List<Reto> getRetos() {
-		return retos;
-	}
-	public void setRetos(List<Reto> retos) {
-		this.retos = retos;
-	}
-	
-	public void add(Reto reto) {
-		if (reto != null && !this.retos.contains(reto)) {
-			retos.add(reto);
-		} 	
-	}
+	public List<Reto> getRetosCompletados() {
+        return retosCompletados;
+    }
+
+    public void anadirRetoCompletado(Reto reto) {
+        this.retosCompletados.add(reto);
+    }
+
+    public List<Reto> getRetosAceptados() {
+        return retosAceptados;
+    }
+
+    public void anadirRetoAceptados(Reto reto) {
+        this.retosAceptados.add(reto);
+    }
+    
+    public void agregarSesion(Entrenamiento entrenamiento) {
+        entrenamientos.add(entrenamiento);
+        entrenamiento.setUsuario(this);
+    }
 	public void add(Entrenamiento entrenamiento) {
 		if (entrenamiento != null && !this.entrenamientos.contains(entrenamiento)) {
 			entrenamientos.add(entrenamiento);

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dao.UsuarioDAO;
 import data.domain.TipoRegistro;
 import data.domain.Usuario;
 import data.dto.RetoDTO;
@@ -34,7 +35,6 @@ public class UserAppService {
 	
 	public Usuario registro(String nombre, String correo, Date fecha_ncto, String tipReg, Integer peso, Integer altura, Integer frecuenciaCardMax, Integer frecuenciaCardRep) {
 		Usuario usuario = new Usuario();
-		
 		if (!correos.contains(usuario.getCorreo())) {
 			correos.add(correo);
 			usuario.setNombre(nombre);
@@ -48,13 +48,16 @@ public class UserAppService {
 				usuario.setFrec_card_reposo(frecuenciaCardRep);
 			}
 			usuariosRegistrados.put(correo, usuario);
+	//          UsuarioDAO.getInstance().guardar(usuario);
+	            System.out.println("Usuario registrado en DAO");
+	            return usuario;
+	        
 		} else {
 			System.err.println("El correo ya esta registrado");
 			return null;
 		}
 		
-		
-		return usuario;
+
 	} 
 	
 }

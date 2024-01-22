@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.EntrenamientoDAO;
+import dao.UsuarioDAO;
 import data.domain.Deporte;
 import data.domain.Entrenamiento;
 import data.domain.Reto;
 import data.domain.Usuario;
+import data.dto.EntrenamientoDTO;
 
 public class EntrenamientoAppService {
 	
@@ -21,6 +24,13 @@ public class EntrenamientoAppService {
 		entrenamiento.setFecha_fin(fecha_fin);
 		entrenamiento.setDistancia(distancia);
 		entrenamiento.setDuracion(duracion);
+		
+		//Usuario usr = UsuarioDAO.getInstance().find(usuario.getNombre());
+
+         usuario.agregarSesion(entrenamiento);
+
+       // EntrenamientoDAO.getInstance().guardar(entrenamiento);
+       // UsuarioDAO.getInstance().guardar(usr);
 		
 		usuario.add(entrenamiento);
 		

@@ -6,7 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class DataAccessObjectBase{
-	protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory("STRAVA");
+	protected static EntityManagerFactory emf = Persistence.createEntityManagerFactory("Strava");
 	
 	public void borrarObject(Object object) {
 		EntityManager em = emf.createEntityManager();

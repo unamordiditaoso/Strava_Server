@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "Entrenamiento")
 public class Entrenamiento {
 	@Id
     @GeneratedValue(strategy=GenerationType.TABLE)
@@ -18,6 +19,9 @@ public class Entrenamiento {
 	protected Date fecha_ini;
 	protected Date fecha_fin;
 	protected int duracion;
+	@ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_U") 
+    private Usuario usuario;
 	
 	public Entrenamiento() {
 		super();
@@ -27,9 +31,10 @@ public class Entrenamiento {
 		this.fecha_ini = new Date();
 		this.fecha_fin = new Date();
 		this.duracion = 0;
+		this.usuario = new Usuario();
 	}
 	
-	public Entrenamiento(String titulo, Deporte deporte, int distancia, Date fecha_ini, Date fecha_fin, int duracion) {
+	public Entrenamiento(String titulo, Deporte deporte, int distancia, Date fecha_ini, Date fecha_fin, int duracion, Usuario usuario) {
 		super();
 		this.titulo = titulo;
 		this.deporte = deporte;
@@ -37,6 +42,7 @@ public class Entrenamiento {
 		this.fecha_ini = fecha_ini;
 		this.fecha_fin = fecha_fin;
 		this.duracion = duracion;
+		this.usuario = usuario;
 	}
 	public String getTitulo() {
 		return titulo;
@@ -73,6 +79,18 @@ public class Entrenamiento {
 	}
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
